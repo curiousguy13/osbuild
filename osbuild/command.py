@@ -36,7 +36,7 @@ def run(args, retry=0, watch_log=None):
         result = process.wait(watch_log=watch_log)
         if result != 0:
             if tries < retry + 1:
-                print("Retrying (attempt %d) in 1 minute" % tries)
+                print(("Retrying (attempt %d) in 1 minute" % tries))
                 time.sleep(60)
             else:
                 raise subprocess.CalledProcessError(result, args)

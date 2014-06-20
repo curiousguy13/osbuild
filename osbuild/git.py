@@ -15,7 +15,7 @@
 
 import os
 import subprocess
-import urlparse
+import urllib.parse
 
 from osbuild import command
 from osbuild import config
@@ -52,7 +52,7 @@ class Module:
         self._retry = 10
 
     def _compute_remotes(self, remote):
-        parsed_url = urlparse.urlparse(remote)
+        parsed_url = urllib.parse.urlparse(remote)
 
         self._remotes = {"origin": remote}
 
@@ -79,7 +79,7 @@ class Module:
 
         os.chdir(self.local)
 
-        for name, remote in self._remotes.items():
+        for name, remote in list(self._remotes.items()):
             if name != "origin":
                 command.run(["git", "remote", "add", name, remote])
 
