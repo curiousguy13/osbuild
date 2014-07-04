@@ -123,7 +123,7 @@ def _unlink_libtool_files():
         for fname in fnmatch.filter(fnames, "*.la"):
             os.unlink(os.path.join(dirname, fname))
 
-    os.path.walk(config.lib_dir, func, None)
+    os.walk(config.lib_dir, func, None)
 
 
 def _pull_module(module, source=None):
@@ -182,12 +182,12 @@ _builders["autotools"] = _build_autotools
 
 
 def _build_distutils(module):
-    site_packages = os.path.join(config.install_dir, "lib", "python2.7",
+    site_packages = os.path.join(config.install_dir, "lib", "python3.3",
                                  "site-packages")
     utils.ensure_dir(site_packages)
 
     setup = os.path.join(module.get_source_dir(), "setup.py")
-    command.run(["python2.7", setup, "install", "--prefix",
+    command.run(["python3.3", setup, "install", "--prefix",
                  config.install_dir])
 
 _builders["distutils"] = _build_distutils
