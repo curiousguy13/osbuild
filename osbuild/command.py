@@ -27,21 +27,31 @@ def run(args, retry=0, watch_log=None):
     logging.info("Running command %s" % " ".join(args))
 
     tries = 0
+    print("%poop1a%")
     while tries < retry + 1:
         tries = tries + 1
-
+        print("%poop2a%")
         process = plog.LoggedProcess(args)
         process.execute()
-
+        print("%poop3a%",process)
         result = process.wait(watch_log=watch_log)
+        print("%poop4a%",result)
         if result != 0:
+            print("%poop5a%",result)
             if tries < retry + 1:
+                print("%poop6a%",tries,retry)
                 print(("Retrying (attempt %d) in 1 minute" % tries))
+                print("%poop7a%",tries,retry)
                 time.sleep(60)
+                print("%poop8a%",tries,retry)
             else:
-                raise subprocess.CalledProcessError(result, args)
+                print("%poop9a%",result,args)
+                #raise subprocess.CalledProcessError(result,subprocess.list2cmdline(args),result)
+                raise NameError("CalledProcessError")
+                print("%poop10a%",tries,retry)
         else:
             break
+        print("%poop6a%",result)
 
 
 def run_with_runner(cmd):
