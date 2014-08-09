@@ -1,3 +1,4 @@
+from __future__ import print_function
 # Copyright 2013 Daniel Narvaez
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -46,7 +47,7 @@ def _dist_module(module):
     if not module.dist:
         return True
 
-    print("* Creating %s distribution" % module.name)
+    print(("* Creating %s distribution" % module.name))
     return _dist_builders[module.build_system](module)
 
 

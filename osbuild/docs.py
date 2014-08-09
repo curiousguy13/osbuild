@@ -1,3 +1,4 @@
+from __future__ import print_function
 # Copyright 2013 Daniel Narvaez
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +28,7 @@ def build():
 
     for module in config.load_modules():
         if module.has_docs:
-            print("* Generating %s" % module.name)
+            print(("* Generating %s" % module.name))
 
             os.chdir(module.get_source_dir())
             output_dir = os.path.join(config.docs_dir, module.docs_dir)

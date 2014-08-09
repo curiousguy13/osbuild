@@ -1,3 +1,4 @@
+from __future__ import print_function
 # Copyright 2013 Daniel Narvaez
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -47,7 +48,7 @@ def _check_module(module):
 
     os.chdir(module.get_source_dir())
 
-    print("* Checking %s" % module.name)
+    print(("* Checking %s" % module.name))
     return _checkers[module.build_system](module)
 
 

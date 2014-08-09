@@ -1,3 +1,6 @@
+from __future__ import print_function
+from __future__ import print_function
+from __future__ import print_function
 # Copyright 2013 Daniel Narvaez
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -90,7 +93,7 @@ def build():
 
 
 def _clean_module(module):
-    print("* Cleaning %s" % module.name)
+    print(("* Cleaning %s" % module.name))
 
     git_module = git.get_module(module)
     if os.path.exists(module.get_source_dir()):
@@ -127,7 +130,7 @@ def _unlink_libtool_files():
 
 
 def _pull_module(module, source=None):
-    print("* Pulling %s" % module.name)
+    print(("* Pulling %s" % module.name))
 
     git_module = git.get_module(module)
 
@@ -207,7 +210,7 @@ _builders["npm"] = _build_npm
 
 
 def _build_module(module):
-    print("* Building %s" % module.name)
+    print(("* Building %s" % module.name))
 
     source_dir = module.get_source_dir()
 
