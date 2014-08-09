@@ -57,7 +57,7 @@ def collect_logs(source_path, log_path):
                 logs[filename] = f.read()
 
     with open(log_path, "a") as f:
-        for filename, log in list(logs.items()):
+        for filename, log in logs.items():
             f.write("\n===== %s =====\n\n%s" % (filename, log))
 
 

@@ -81,22 +81,16 @@ def build():
         return True
 
     print("\n= Building =\n")
-    print("%poop:osbuild/build.py/build1%")
-    loggong.info("%poop:osbuild/build.py/build1%")
-    for module in to_build: 
-        print("%poop:osbuild/build.py/build2%")
-        loggong.info("%poop:osbuild/build.py/build2%")
+
+    for module in to_build:
         if not _build_module(module):
-            print("%poop:osbuild/build.py/build3%")
-            loggong.info("%poop:osbuild/build.py/build3%")
             return False
-    print("%poop:osbuild/build.py/build4%")
-    loggong.info("%poop:osbuild/build.py/build4%")
+
     return True
 
 
 def _clean_module(module):
-    print(("* Cleaning %s" % module.name))
+    print("* Cleaning %s" % module.name)
 
     git_module = git.get_module(module)
     if os.path.exists(module.get_source_dir()):
@@ -129,11 +123,11 @@ def _unlink_libtool_files():
         for fname in fnmatch.filter(fnames, "*.la"):
             os.unlink(os.path.join(dirname, fname))
 
-    os.walk(config.lib_dir, func, None)
+    os.path.walk(config.lib_dir, func, None)
 
 
 def _pull_module(module, source=None):
-    print(("* Pulling %s" % module.name))
+    print("* Pulling %s" % module.name)
 
     git_module = git.get_module(module)
 
@@ -155,18 +149,11 @@ def _eval_option(option):
 
 def _build_autotools(module):
     # Workaround for aclocal 1.11 (fixed in 1.12)
-    print("%poop:osbuild/build.py/_build_autotools1%")
-    loggong.info("%poop:osbuild/build.py/_build_autotools1%")
     aclocal_path = os.path.join(config.share_dir, "aclocal")
-    print("%poop:osbuild/build.py/_build_autotools2%")
-    loggong.info("%poop:osbuild/build.py/_build_autotools2%")
     utils.ensure_dir(aclocal_path)
-    print("%poop:osbuild/build.py/_build_autotools3%")
-    loggong.info("%poop:osbuild/build.py/_build_autotools3%")
 
     makefile_path = os.path.join(module.get_source_dir(), module.makefile_name)
-    print("%poop:osbuild/build.py/_build_autotools4%")
-    loggong.info("%poop:osbuild/build.py/_build_autotools4%")
+
     if not os.path.exists(makefile_path):
         configure = os.path.join(module.get_source_dir(), "autogen.sh")
         if not os.path.exists(configure):
@@ -183,29 +170,24 @@ def _build_autotools(module):
             args.append(_eval_option(option))
 
         command.run(args)
-    print("%poop:osbuild/build.py/_build_autotools5%")
-    loggong.info("%poop:osbuild/build.py/_build_autotools5%")
+
     jobs = multiprocessing.cpu_count() * 2
-    print("%poop:osbuild/build.py/_build_autotools6%: jobs=",jobs)
-    loggong.info("%poop:osbuild/build.py/_build_autotools6%: jobs=",jobs)
+
     command.run(["make", "-j", "%d" % jobs])
-    print("%poop:osbuild/build.py/_build_autotools7%")
-    loggong.info("%poop:osbuild/build.py/_build_autotools7%")
     command.run(["make", "install"])
-    print("%poop:osbuild/build.py/_build_autotools8%")
-    loggong.info("%poop:osbuild/build.py/_build_autotools8%")
+
     _unlink_libtool_files()
 
 _builders["autotools"] = _build_autotools
 
 
 def _build_distutils(module):
-    site_packages = os.path.join(config.install_dir, "lib", "python3.3",
+    site_packages = os.path.join(config.install_dir, "lib", "python2.7",
                                  "site-packages")
     utils.ensure_dir(site_packages)
 
     setup = os.path.join(module.get_source_dir(), "setup.py")
-    command.run(["python3.3", setup, "install", "--prefix",
+    command.run(["python2.7", setup, "install", "--prefix",
                  config.install_dir])
 
 _builders["distutils"] = _build_distutils
@@ -225,32 +207,23 @@ _builders["npm"] = _build_npm
 
 
 def _build_module(module):
-    print("%poop:osbuild/build.py/_build_module1%")
-    logging.info("%poop:osbuild/build.py/_build_module1%")
-    print(("* Building %s" % module.name))
-    print("%poop:osbuild/build.py/_build_module2%")
-    logging.info("%poop:osbuild/build.py/_build_module2%")
+    print("* Building %s" % module.name)
+
     source_dir = module.get_source_dir()
-    print("%poop:osbuild/build.py/_build_module3%")
-    logging.info("%poop:osbuild/build.py/_build_module3%")
-    print(source_dir)
+
     if not os.path.exists(source_dir):
         print("Source directory does not exist. Please pull the sources "
               "before building.")
         return False
-    print("%poop:osbuild/build.py/_build_module4%")
-    logging.info("%poop:osbuild/build.py/_build_module4%")
+
     os.chdir(source_dir)
-    print("%poop:osbuild/build.py/_build_module5%")
-    logging.info("%poop:osbuild/build.py/_build_module5%")
+
     try:
         if module.build_system is not None:
             _builders[module.build_system](module)
     except subprocess.CalledProcessError:
         return False
-    print("%poop:osbuild/build.py/_build_module6%")
-    logging.info("%poop:osbuild/build.py/_build_module6%")
+
     state.built_module_touch(module)
-    print("%poop:osbuild/build.py/_build_module7%")
-    logging.info("%poop:osbuild/build.py/_build_module7%")
+
     return True

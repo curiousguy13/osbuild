@@ -46,7 +46,7 @@ def _dist_module(module):
     if not module.dist:
         return True
 
-    print(("* Creating %s distribution" % module.name))
+    print("* Creating %s distribution" % module.name)
     return _dist_builders[module.build_system](module)
 
 

@@ -27,7 +27,7 @@ def build():
 
     for module in config.load_modules():
         if module.has_docs:
-            print(("* Generating %s" % module.name))
+            print("* Generating %s" % module.name)
 
             os.chdir(module.get_source_dir())
             output_dir = os.path.join(config.docs_dir, module.docs_dir)
