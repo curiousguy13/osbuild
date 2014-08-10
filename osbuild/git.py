@@ -55,8 +55,10 @@ class Module:
         self._retry = 10
 
     def _compute_remotes(self, remote):
-        parsed_url = urlparse.urlparse(remote)
-
+        try:
+            parsed_url = urlparse.urlparse(remote)
+        except:
+            parsed_url = urlllib.parse(remote)
         self._remotes = {"origin": remote}
 
         if parsed_url.netloc != "github.com":
