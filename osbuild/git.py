@@ -17,7 +17,7 @@ import os
 import subprocess
 try:
     import urlparse
-except
+except:
     import urllib.parse
 
 from osbuild import command
