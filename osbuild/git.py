@@ -15,7 +15,10 @@
 
 import os
 import subprocess
-import urlparse
+try:
+    import urlparse
+except
+    import urllib.parse
 
 from osbuild import command
 from osbuild import config
