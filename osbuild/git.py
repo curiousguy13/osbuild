@@ -58,7 +58,7 @@ class Module:
         try:
             parsed_url = urlparse.urlparse(remote)
         except:
-            parsed_url = urlllib.parse(remote)
+            parsed_url = urllib.parse(remote)
         self._remotes = {"origin": remote}
 
         if parsed_url.netloc != "github.com":
