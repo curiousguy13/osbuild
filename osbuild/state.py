@@ -25,11 +25,15 @@ _SYSTEM_CHECK = "syscheck"
 
 
 def _compute_sourcestamp(path):
+    '''
     import sourcestamp
     return sourcestamp.compute(path)
+    '''
+    pass
 
 
 def built_module_touch(module):
+
     built_modules = _load_state(_BUILT_MODULES, {})
 
     source_stamp = _compute_sourcestamp(module.get_source_dir())
