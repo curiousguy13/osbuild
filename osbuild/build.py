@@ -126,7 +126,10 @@ def _unlink_libtool_files():
         for fname in fnmatch.filter(fnames, "*.la"):
             os.unlink(os.path.join(dirname, fname))
 
-    os.path.walk(config.lib_dir, func, None)
+    try:
+        os.path.walk(config.lib_dir, func, None)
+    except:
+        os.walk(config.lib_dir, func, None)
 
 
 def _pull_module(module, source=None):
@@ -185,13 +188,16 @@ _builders["autotools"] = _build_autotools
 
 
 def _build_distutils(module):
+    logging.info("#poop:osbuild/build.py:_build_distutils1")
     site_packages = os.path.join(config.install_dir, "lib", "python3.3",
                                  "site-packages")
     utils.ensure_dir(site_packages)
-
+    logging.info("#poop:osbuild/build.py:_build_distutils2")
     setup = os.path.join(module.get_source_dir(), "setup.py")
+    logging.info("#poop:osbuild/build.py:_build_distutils3")
     command.run(["python3.3", setup, "install", "--prefix",
                  config.install_dir])
+    logging.info("#poop:osbuild/build.py:_build_distutils4")
 
 _builders["distutils"] = _build_distutils
 
@@ -211,22 +217,27 @@ _builders["npm"] = _build_npm
 
 def _build_module(module):
     print(("* Building %s" % module.name))
-
+    logging.info("#poop:osbuild/build.py:_build_module1")
     source_dir = module.get_source_dir()
-
+    
     if not os.path.exists(source_dir):
         print("Source directory does not exist. Please pull the sources "
               "before building.")
         return False
-
+    logging.info("#poop:osbuild/build.py:_build_module2")
     os.chdir(source_dir)
-
+    logging.info("#poop:osbuild/build.py:_build_module3")
     try:
         if module.build_system is not None:
+            logging.info("#poop:osbuild/build.py:_build_module4")
+            print("#poop:osbuild/build.py:_build_module4:_builders=",_builders)
+            print("#poop:osbuild/build.py:_build_module4:module.build_system=",module.build_system)
             _builders[module.build_system](module)
+            logging.info("#poop:osbuild/build.py:_build_module5")
     except subprocess.CalledProcessError:
+        logging.info("#poop:osbuild/build.py:_build_module6")
         return False
-
+    logging.info("#poop:osbuild/build.py:_build_module7")
     state.built_module_touch(module)
-
+    logging.info("#poop:osbuild/build.py:_build_module8")
     return True
