@@ -56,7 +56,7 @@ def pull(sources={}):
         print("\n= Pulling =\n")
 
     for module in to_pull:
-        #if state.pulled_module_should_clean(module):
+        if state.pulled_module_should_clean(module):
         source_dir = module.get_source_dir()
 
         if os.path.exists(source_dir):
@@ -77,7 +77,7 @@ def pull(sources={}):
 def build():
     to_build = []
     for module in config.load_modules():
-        #if not state.built_module_is_unchanged(module):
+        if not state.built_module_is_unchanged(module):
         to_build.append(module)
 
     if not to_build:
@@ -141,7 +141,7 @@ def _pull_module(module, source=None):
 
     logging.info("{0} HEAD: {1}".format(module.name, git_module.get_head()))
 
-    #state.pulled_module_touch(module)
+    state.pulled_module_touch(module)
 
     return True
 
@@ -227,6 +227,6 @@ def _build_module(module):
     except subprocess.CalledProcessError:
         return False
 
-    #state.built_module_touch(module)
+    state.built_module_touch(module)
 
     return True
