@@ -59,12 +59,12 @@ def pull(sources={}):
         if state.pulled_module_should_clean(module):
             source_dir = module.get_source_dir()
 
-        if os.path.exists(source_dir):
-            if not _clean_module(module):
-                print("! Could not clean module, pull failed.")
-                return False
+            if os.path.exists(source_dir):
+                if not _clean_module(module):
+                    print("! Could not clean module, pull failed.")
+                    return False
 
-            shutil.rmtree(source_dir, ignore_errors=True)
+                shutil.rmtree(source_dir, ignore_errors=True)
 
     for module in to_pull:
         source = sources.get(module.name, {})
