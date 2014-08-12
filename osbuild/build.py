@@ -57,7 +57,7 @@ def pull(sources={}):
 
     for module in to_pull:
         if state.pulled_module_should_clean(module):
-        source_dir = module.get_source_dir()
+            source_dir = module.get_source_dir()
 
         if os.path.exists(source_dir):
             if not _clean_module(module):
@@ -78,7 +78,7 @@ def build():
     to_build = []
     for module in config.load_modules():
         if not state.built_module_is_unchanged(module):
-        to_build.append(module)
+            to_build.append(module)
 
     if not to_build:
         return True
