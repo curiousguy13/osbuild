@@ -189,13 +189,13 @@ _builders["autotools"] = _build_autotools
 
 def _build_distutils(module):
     logging.info("#poop:osbuild/build.py:_build_distutils1")
-    site_packages = os.path.join(config.install_dir, "lib", "python3.3",
+    site_packages = os.path.join(config.install_dir, "lib", "python2.7",
                                  "site-packages")
     utils.ensure_dir(site_packages)
     logging.info("#poop:osbuild/build.py:_build_distutils2")
     setup = os.path.join(module.get_source_dir(), "setup.py")
     logging.info("#poop:osbuild/build.py:_build_distutils3")
-    command.run(["python3.3", setup, "install", "--prefix",
+    command.run(["python2.7", setup, "install", "--prefix",
                  config.install_dir])
     logging.info("#poop:osbuild/build.py:_build_distutils4")
 
